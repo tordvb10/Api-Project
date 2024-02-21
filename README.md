@@ -1,0 +1,1 @@
+In this project I will practice what we have learn about Api. The layout is simple, since I am doing a solo project, and I will display a button that, when clicked, generated random facts about dogs from a specific api.
