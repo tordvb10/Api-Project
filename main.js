@@ -4,7 +4,7 @@ createbutton.sayHi();
 console.log(createbutton.button);
 
 const APIkey = "3af8b89d0b868bd0d3a19e92c6ae82bd";
-const bibelurl = `https://scripture.api.bible/admin/applications/api-key=${APIkey}`;
+const bibelurl = `https://api.scripture.api.bible/v1/swagger.json`;
 
 const bibelFetch = async () => {
   const response = await fetch(bibelurl);
