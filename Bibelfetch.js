@@ -13,27 +13,21 @@ const option = {
     }
 }
 const errorArray = []
-const scripturesFetch = async (input = null) => {
+const scripturesFetch = async (input = "") => {
     try{
-        if(input === null){
-            const response = await fetch(url, option)
-            const fetchedBibles = await response.json()
-            const norBible = []
+        const response = await fetch(url+input, option)
+        const fetchedBibles = await response.json()
+        console.log(fetchedBibles)
+        const norBible = []
         fetchedBibles.data.forEach((element) => {
             if(element.language.id === "nob"){
                 norBible.push(element)
+                return
             }
         })
         console.log(norBible[0].id)
-        return await scripturesFetch(norBible[0].id)
-    } else {
-        endpoint += `/${input}/verses/JHN.1.1` // chapters/JHN.1/verses
-        url = `https://api.scripture.api.bible/v1/${endpoint}`
-        const response = await fetch(url, option)
-        const fetchedVerses = await response.json()
-        return fetchedVerses
-    }
-
+        return norBible[0].id
+    
     } catch (error){
         errorArray.push(error)
         console.log("Error fetching from api", error)
