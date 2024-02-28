@@ -1,30 +1,39 @@
-import * as helps from "./scripts/createbutton.js";
-import readbible from "./scripts/readbible.js";
-console.log("hello world");
-helps.sayHi();
+import content from "./verses.json" assert {type: "json"}
+import createpage from "./scripts/createpage.js"
 
 const endpoint = `bibles`
 
 const url = `https://api.scripture.api.bible/v1/${endpoint}`
-console.log(url)
 
 const option = {
     method: "GET",
     headers: {
-        "api-key": '3af8b89d0b868bd0d3a19e92c6ae82bd',
+        "api-key": '3af8b89d0b868bd0d3a19e92c6ae82bd',//process.env.API_KEY,
         "accept": "application/json"
     }
 }
 
-const scripturesFetch = async () => {
-    const response = await fetch(url, option)
-    if (response.ok !== true) {
-        return;
+const scripturesFetch = async (bibleID,verseID) => {
+    try{
+        const response = await fetch(url+`/${bibleID}/verses/${verseID}`, option)
+        if (response.ok !== true) {
+            return;
+        }
+        const data = await response.json()
+        //console.log(response)
+        //console.log(data)
+        return data
+    } catch (error){
+        console.log("Error fetching from api", error)
     }
-    const data = await response.json()
-    console.log(response)
-    console.log(data)
-    console.log(readbible(data.data))
 }
 
-scripturesFetch()
+console.log(content)
+createpage() 
+
+
+//let RandomVers = await scripturesFetch(content.bibleId,content.verseId[Math.floor(Math.random()*content.verseId.length)])
+//console.log(RandomVers)
+//document.body.innerHTML = RandomVers.data.content
+
+//scripturesFetch()  

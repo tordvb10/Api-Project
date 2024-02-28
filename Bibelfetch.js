@@ -21,11 +21,11 @@ const scripturesFetch = async (input = "") => {
         const fetched = await response.json()
         const norBible = []
         if (input === ""){
-            fetched.data.forEach((element) => {
+            for (let element of fetched.data){
                 if(element.language.id === "nob"){
                     norBible.push(element)
                 }
-            })
+            }
         }
         console.log(!!norBible.length)
         return !!norBible.length ? norBible : fetched
@@ -36,23 +36,28 @@ const scripturesFetch = async (input = "") => {
     }
 }
 
-const fetchedBibles = await scripturesFetch()
-
-console.log(fetchedBibles)
-
-const fetchedBooks = await scripturesFetch(`/${fetchedBibles[0].id}/books`)
-fs.writeFileSync("./verses.json","")
-const IDs = []
-fetchedBooks.data.forEach(async (Books) => {
-    const fetchChapters = await scripturesFetch(`/${fetchedBibles[0].id}/books/${Books.id}/chapters`)
-    fetchChapters.data.forEach(async (Chapter)=> {
-        if (!Chapter.id.includes("intro")){
-            const fetchedVerses = await scripturesFetch(`/${fetchedBibles[0].id}/chapters/${Chapter.id}/verses`)
-            fetchedVerses.data.forEach(async (vers)=> {
-               // console.log(vers.id)
-                IDs.push(vers.id)
-            })
+async function allfetches(){
+    const fetchedBibles = await scripturesFetch()
+    console.log("hello world")
+    console.log(fetchedBibles)
+    const fetchedBooks = await scripturesFetch(`/${fetchedBibles[0].id}/books`)
+    const IDs = []
+    for (let Books of fetchedBooks.data){
+        console.log(Books)
+        const fetchChapters = await scripturesFetch(`/${fetchedBibles[0].id}/books/${Books.id}/chapters`)
+        for (let Chapter of fetchChapters.data){
+            if (!Chapter.id.includes("intro")){
+                const fetchedVerses = await scripturesFetch(`/${fetchedBibles[0].id}/chapters/${Chapter.id}/verses`)
+                for (let vers of fetchedVerses.data){
+                    IDs.push(vers.id)
+                }
+            }
         }
-    })
-})
-console.log(IDs)
+    }
+    return {"bibleId":fetchedBibles[0].id,"verseId":IDs}
+}
+
+const versesIDs = await allfetches()
+console.log(versesIDs)
+
+fs.writeFileSync("./verses.json",JSON.stringify(versesIDs))
