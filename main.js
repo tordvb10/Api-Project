@@ -30,9 +30,13 @@ const scripturesFetch = async (bibleID,verseID) => {
 
 console.log(content)
 createpage() 
+const button = document.querySelector(".Add-bibleverse-button").addEventListener("click", async ()=>{
+    let RandomVers = await scripturesFetch(content.bibleId,content.verseId[Math.floor(Math.random()*content.verseId.length)])
+    console.log(RandomVers)
+    document.querySelector(".Add-bibleverse-paragraph").innerHTML = RandomVers.data.content
+})
 
-
-//let RandomVers = await scripturesFetch(content.bibleId,content.verseId[Math.floor(Math.random()*content.verseId.length)])
+//
 //console.log(RandomVers)
 //document.body.innerHTML = RandomVers.data.content
 
