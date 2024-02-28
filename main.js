@@ -13,9 +13,10 @@ const option = {
     }
 }
 
-const scripturesFetch = async (bibleID,verseID) => {
+const errorArray = []
+const scripturesFetch = async (input) => {
     try{
-        const response = await fetch(url+`/${bibleID}/verses/${verseID}`, option)
+        const response = await fetch(url+input, option)
         if (response.ok !== true) {
             return;
         }
@@ -24,16 +25,16 @@ const scripturesFetch = async (bibleID,verseID) => {
         //console.log(data)
         return data
     } catch (error){
+        errorArray.push(error)
         console.log("Error fetching from api", error)
     }
 }
 
-console.log(content)
 createpage() 
 const button = document.querySelector(".Add-bibleverse-button").addEventListener("click", async ()=>{
-    let RandomVers = await scripturesFetch(content.bibleId,content.verseId[Math.floor(Math.random()*content.verseId.length)])
-    console.log(RandomVers)
-    document.querySelector(".Add-bibleverse-paragraph").innerHTML = RandomVers.data.content
+    let RandomVers = await scripturesFetch(`/${content.bibleId}/verses/${content.verseId[Math.floor(Math.random()*content.verseId.length)]}`)
+    document.querySelector(".Add-bibleverse-paragraph").innerHTML = "<br/>" + RandomVers.data.content + "<br/>" + RandomVers.data.reference
+    document.querySelector(".Add-bibleverse-paragraph span").innerHTML = ""
 })
 
 //

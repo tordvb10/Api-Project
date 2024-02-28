@@ -11,3 +11,14 @@ body {
   left: 10%;
   position: relative;
 }
+
+body > * {
+  align-self: center;
+}
+
+
+.Add-bibleverse-button {
+  max-width: fit-content;
+  background-color:aquamarine;
+  font-size: large;
+}
