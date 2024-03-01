@@ -16,9 +16,12 @@ body > * {
   align-self: center;
 }
 
+p {
+  font-size: 2rem;
+}
 
 .Add-bibleverse-button {
   max-width: fit-content;
   background-color:aquamarine;
-  font-size: large;
+  font-size: 36px;
 }
