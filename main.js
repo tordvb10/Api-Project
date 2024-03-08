@@ -8,7 +8,7 @@ const url = `https://api.scripture.api.bible/v1/${endpoint}`
 const option = {
     method: "GET",
     headers: {
-        "api-key": '3af8b89d0b868bd0d3a19e92c6ae82bd',//process.env.API_KEY,
+        "api-key": "3af8b89d0b868bd0d3a19e92c6ae82bd",
         "accept": "application/json"
     }
 }
